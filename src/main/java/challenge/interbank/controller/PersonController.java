@@ -5,7 +5,6 @@ import challenge.interbank.model.Person;
 import challenge.interbank.util.Util;
 import java.util.List;
 import java.util.stream.Stream;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,20 +33,14 @@ public class PersonController {
         return repository.findAll();
     }
 
-    @GetMapping("/getPersonCode/{encryptedcode}")
-    public String getPersonCode(@PathVariable String encryptedcode) {
-
-        return Util.getDecryptedCode(encryptedcode);
-    }
-
     @GetMapping("/getPerson/{code}")
     public Stream<Person> getPersonByCode(@PathVariable String code) {
 
         return repository.findAll()
                 .stream()
                 .filter(person -> person.getCode().equals(code))
-                .map(filter -> repository.findByCode(filter.getCode()));
-
+                .map(filter -> repository.findByCode(filter.getCode()))
+                .map(data -> Util.getPerson(data));
     }
 
     @PutMapping("/updatePerson")

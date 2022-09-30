@@ -18,11 +18,17 @@ public class Util {
                 .build();
     }
 
-    public static String getDecryptedCode(String encryptedCode){
+    public static Person getPerson(Person person){
 
-        byte[]encryptedBytes = Base64.getDecoder().decode(encryptedCode);
+        byte[]encryptedBytes = Base64.getDecoder().decode(person.getCode());
         String encryptedString = new String(encryptedBytes);
 
-        return encryptedString;
+        return  Person.builder()
+                .code(encryptedString)
+                .names(person.getNames())
+                .lastNames(person.getLastNames())
+                .documentType(person.getDocumentType())
+                .documentNumber(person.getDocumentNumber())
+                .build();
     }
 }
